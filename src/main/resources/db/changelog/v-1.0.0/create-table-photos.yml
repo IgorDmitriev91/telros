@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-photos
+      author: i.dmitriev
+      changes:
+        - createTable:
+            tableName: photos
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  autoIncrement: false
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: photo
+                  type: bytea
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: add-foreign-key-to-photos
+      author: i.dmitriev
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_photos_users_id
+            baseTableName: photos
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id

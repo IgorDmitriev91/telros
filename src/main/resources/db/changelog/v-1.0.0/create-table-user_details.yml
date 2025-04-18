@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-user_details
+      author: i.dmitriev
+      changes:
+        - createTable:
+            tableName: user_details
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  autoIncrement: false
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: email
+                  type: varchar(64)
+                  constraints:
+                    unique: true
+                    nullable: false
+                    checkConstraint: LENGTH(email) >= 5
+              - column:
+                  name: mobile_phone
+                  type: varchar(12)
+                  constraints:
+                    unique: true
+                    nullable: false
+                    checkConstraint: LENGTH(mobile_phone) = 12
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: add-foreign-key-to-user_details
+      author: i.dmitriev
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: fk_users_details_user_id
+            baseTableName: user_details
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
